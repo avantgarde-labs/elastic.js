@@ -1,9 +1,9 @@
   /**
     @class
-    A <code>MatchQuery</code> is a type of <code>Query</code> that accepts 
+    A <code>MatchQuery</code> is a type of <code>Query</code> that accepts
     text/numerics/dates, analyzes it, generates a query based on the
     <code>MatchQuery</code> type.
-  
+
     @name ejs.MatchQuery
     @ejs query
     @borrows ejs.QueryMixin._type as _type
@@ -21,7 +21,7 @@
     var
       _common = ejs.QueryMixin('match'),
       query = _common.toJSON();
-    
+
     query.match[field] = {
       query: qstr
     };
@@ -41,6 +41,22 @@
         }
 
         query.match[field].query = qstr;
+        return this;
+      },
+
+      /**
+            Sets the query name.
+
+            @member ejs.QueryMixin
+            @param {String} name A name for the query.
+            @returns {Object} returns <code>this</code> so that calls can be chained.
+            */
+      name: function (name) {
+        if (name == null) {
+          return query.match[field]._name;
+        }
+
+        query.match[field]._name = name;
         return this;
       },
 
@@ -82,8 +98,8 @@
       },
 
       /**
-            Sets the maximum threshold/frequency to be considered a low 
-            frequency term in a <code>CommonTermsQuery</code>.  
+            Sets the maximum threshold/frequency to be considered a low
+            frequency term in a <code>CommonTermsQuery</code>.
             Set to a value between 0 and 1.
 
             @member ejs.MatchQuery
@@ -98,7 +114,7 @@
         query.match[field].cutoff_frequency = freq;
         return this;
       },
-      
+
       /**
             Sets the prefix length for a fuzzy prefix <code>MatchQuery</code>.
 
@@ -200,30 +216,30 @@
         query.match[field].minimum_should_match = minMatch;
         return this;
       },
-      
+
       /**
-            Sets rewrite method.  Valid values are: 
-            
-            constant_score_auto - tries to pick the best constant-score rewrite 
+            Sets rewrite method.  Valid values are:
+
+            constant_score_auto - tries to pick the best constant-score rewrite
               method based on term and document counts from the query
-              
-            scoring_boolean - translates each term into boolean should and 
+
+            scoring_boolean - translates each term into boolean should and
               keeps the scores as computed by the query
-              
+
             constant_score_boolean - same as scoring_boolean, expect no scores
               are computed.
-              
-            constant_score_filter - first creates a private Filter, by visiting 
+
+            constant_score_filter - first creates a private Filter, by visiting
               each term in sequence and marking all docs for that term
-              
+
             top_terms_boost_N - first translates each term into boolean should
               and scores are only computed as the boost using the top N
               scoring terms.  Replace N with an integer value.
-              
+
             top_terms_N -   first translates each term into boolean should
                 and keeps the scores as computed by the query. Only the top N
                 scoring terms are used.  Replace N with an integer value.
-            
+
             Default is constant_score_auto.
 
             This is an advanced option, use with care.
@@ -236,46 +252,46 @@
         if (m == null) {
           return query.match[field].rewrite;
         }
-        
+
         m = m.toLowerCase();
         if (m === 'constant_score_auto' || m === 'scoring_boolean' ||
           m === 'constant_score_boolean' || m === 'constant_score_filter' ||
-          m.indexOf('top_terms_boost_') === 0 || 
+          m.indexOf('top_terms_boost_') === 0 ||
           m.indexOf('top_terms_') === 0) {
-            
+
           query.match[field].rewrite = m;
         }
-        
+
         return this;
       },
-      
+
       /**
-            Sets fuzzy rewrite method.  Valid values are: 
-            
-            constant_score_auto - tries to pick the best constant-score rewrite 
+            Sets fuzzy rewrite method.  Valid values are:
+
+            constant_score_auto - tries to pick the best constant-score rewrite
               method based on term and document counts from the query
-              
-            scoring_boolean - translates each term into boolean should and 
+
+            scoring_boolean - translates each term into boolean should and
               keeps the scores as computed by the query
-              
+
             constant_score_boolean - same as scoring_boolean, expect no scores
               are computed.
-              
-            constant_score_filter - first creates a private Filter, by visiting 
+
+            constant_score_filter - first creates a private Filter, by visiting
               each term in sequence and marking all docs for that term
-              
+
             top_terms_boost_N - first translates each term into boolean should
               and scores are only computed as the boost using the top N
               scoring terms.  Replace N with an integer value.
-              
+
             top_terms_N -   first translates each term into boolean should
                 and keeps the scores as computed by the query. Only the top N
                 scoring terms are used.  Replace N with an integer value.
-            
+
             Default is constant_score_auto.
 
             This is an advanced option, use with care.
-            
+
             @member ejs.MatchQuery
             @param {String} m The rewrite method as a string.
             @returns {Object} returns <code>this</code> so that calls can be chained.
@@ -288,17 +304,17 @@
         m = m.toLowerCase();
         if (m === 'constant_score_auto' || m === 'scoring_boolean' ||
           m === 'constant_score_boolean' || m === 'constant_score_filter' ||
-          m.indexOf('top_terms_boost_') === 0 || 
+          m.indexOf('top_terms_boost_') === 0 ||
           m.indexOf('top_terms_') === 0) {
-            
+
           query.match[field].fuzzy_rewrite = m;
         }
-        
+
         return this;
       },
-      
+
       /**
-            Set to false to use classic Levenshtein edit distance in the 
+            Set to false to use classic Levenshtein edit distance in the
             fuzzy query.
 
             @member ejs.MatchQuery
@@ -329,10 +345,10 @@
         query.match[field].lenient = trueFalse;
         return this;
       },
-    
+
       /**
             Sets what happens when no terms match.  Valid values are
-            "all" or "none".  
+            "all" or "none".
 
             @member ejs.MatchQuery
             @param {String} q A no match action, "all" or "none".
@@ -347,10 +363,10 @@
         if (q === 'all' || q === 'none') {
           query.match[field].zero_terms_query = q;
         }
-        
+
         return this;
       },
-      
+
       /**
             Sets the boost value for documents matching the <code>Query</code>.
 

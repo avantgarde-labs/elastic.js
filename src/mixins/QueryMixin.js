@@ -1,7 +1,7 @@
   /**
     @mixin
-    <p>The QueryMixin provides support for common options used across 
-    various <code>Query</code> implementations.  This object should not be 
+    <p>The QueryMixin provides support for common options used across
+    various <code>Query</code> implementations.  This object should not be
     used directly.</p>
 
     @name ejs.QueryMixin
@@ -28,17 +28,33 @@
         query[type].boost = boost;
         return this;
       },
-    
+
+      /**
+            Sets the query name.
+
+            @member ejs.QueryMixin
+            @param {String} name A name for the query.
+            @returns {Object} returns <code>this</code> so that calls can be chained.
+            */
+      name: function (name) {
+        if (name == null) {
+          return query[type]._name;
+        }
+
+        query[type]._name = name;
+        return this;
+      },
+
       /**
             The type of ejs object.  For internal use only.
-          
+
             @member ejs.QueryMixin
             @returns {String} the type of object
             */
       _type: function () {
         return 'query';
       },
-    
+
       /**
             Retrieves the internal <code>query</code> object. This is typically used by
             internal API functions so use with caution.
@@ -49,6 +65,6 @@
       toJSON: function () {
         return query;
       }
-  
+
     };
   };
